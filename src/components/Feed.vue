@@ -64,7 +64,7 @@ import FeedPost from "./FeedPost.vue"
         methods: {
             post_content() {
                 axios.request({
-                    url : "http://127.0.0.1:5000/api/feed",
+                    url : "https://kbfirstfullstack.ml/api/feed",
                     method : "POST",
                     headers : {
                         'Content-Type': 'application/json'
@@ -86,7 +86,7 @@ import FeedPost from "./FeedPost.vue"
             },
             getPosts(){
                 axios.request({
-                    url : "http://127.0.0.1:5000/api/feed",
+                    url : "https://kbfirstfullstack.ml/api/feed",
                     method : "GET",
                     headers : {
                         'Content-Type': 'application/json'
