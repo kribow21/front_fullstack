@@ -56,6 +56,7 @@ import FeedPost from "./FeedPost.vue"
             }
         },
         mounted () {
+            this.getPosts();
         },
         methods: {
             post_content() {
@@ -78,6 +79,21 @@ import FeedPost from "./FeedPost.vue"
 
                 })
 
+            },
+            getPosts(){
+                axios.request({
+                    url : "http://127.0.0.1:5000/api/feed",
+                    method : "GET",
+                    headers : {
+                        'Content-Type': 'application/json'
+                    },
+                }).then((response) => {
+                print(response)
+                this.allPosts = response.data;
+
+                }).catch((error) => {
+                    console.error("There was an error" +error);
+                })
             },
         }
 
