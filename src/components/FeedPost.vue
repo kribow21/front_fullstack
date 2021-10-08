@@ -1,6 +1,6 @@
 <template>
     <div>
-                <v-card
+        <v-card
         class="mx-auto"
         color="primary"
         dark
@@ -30,7 +30,7 @@
                 justify="end"
             >
                 <!-- form for editing post-->
-                <v-icon @click="editPost" class="mr-1"
+                <v-icon @click="clickToEdit" class="mr-1"
                 color="accent">
                 mdi-comment-edit-outline
                 </v-icon>
@@ -65,21 +65,24 @@
 </template>
 
 <script>
+import axios from "axios";
     export default {
         name : 'FeedPost',
             props : {
-    //     id : Number
-    //     content : String
-    //     username : String
-    //     time_created : Number
+                id : Number,
+                content : String,
+                username : String,
+                time_created : String
     },
     data() {
         return {
-            editedContent: ""
+            editedContent: "",
+            isForm: true,
+
         }
     },
     methods: {
-            clickToEdit(){
+    clickToEdit(){
         if (this.isForm == true){
             this.isForm = false
         }else if(this.isForm == false){
@@ -87,6 +90,8 @@
         }
     },
     editPost(){
+        console.log(this.editedContent)
+        console.log(this.id)
         axios.request({
             url : "http://127.0.0.1:5000/api/feed",
             method : "PATCH",
@@ -94,19 +99,20 @@
                 'Content-Type': 'application/json'
             },
             data : {
-                content : this.editedContent,
-                id : this.id
+                "content" : this.editedContent,
+                "id" : this.id
             }
         }).then((response) => {
         print(response)
         console.log(response);
+        this.$emit('UpdateFeed');
+
 
         }).catch((error) => {
             console.error("There was an error" +error);
         })
-    }
     },
-    deletePost(){
+        deletePost(){
         axios.request({
             url : "http://127.0.0.1:5000/api/feed",
             method : "DELETE",
@@ -114,15 +120,17 @@
                 'Content-Type': 'application/json'
             },
             data : {
-                userId : this.id
+                "id" : this.id
             }
         }).then((response) => {
         print(response)
         console.log(response);
+        this.$emit('DeletePostFromFeed');
 
         }).catch((error) => {
             console.error("There was an error" +error);
         })
+    }
     }
 
     }

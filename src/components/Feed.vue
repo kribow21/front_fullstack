@@ -30,8 +30,11 @@
         >Submit</v-btn>
         <p id="confirmResponse"></p>
         <FeedPost
+            @UpdateFeed="getPosts"
+            @DeletePostFromFeed="getPosts"
             v-for="post in allPosts"
             v-bind:key="post.id"
+            :id="post.id"
             :content="post.content"
             :username="post.username"
             :time_created="post.time_created"
@@ -74,6 +77,7 @@ import FeedPost from "./FeedPost.vue"
                 }).then((response) => {
                     console.log(response);
                     document.getElementById('confirmResponse').innerText="Post Created"
+                    this.getPosts()
                 }).catch((error) => {
                     console.error("There was an error" +error);
 
@@ -88,8 +92,8 @@ import FeedPost from "./FeedPost.vue"
                         'Content-Type': 'application/json'
                     },
                 }).then((response) => {
-                print(response)
-                this.allPosts = response.data;
+                    console.log(response);
+                    this.allPosts = response.data;
 
                 }).catch((error) => {
                     console.error("There was an error" +error);
